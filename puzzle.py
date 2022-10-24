@@ -27,7 +27,7 @@ impossible = [[0, 7, 2],
 
 # --- END TEST CASES ---
 
-def print_puzzle(puzzle):
+def print_puzzle(puzzle: list[list[int]]):
     for i in range(0, 3):
         print(puzzle[i], end="")
         print('\n', end="")

@@ -1,4 +1,4 @@
-import anytree, puzzle, search
+import puzzle, search
 
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
@@ -32,9 +32,6 @@ def main():
         userRowThree = input("Enter Row #3: ")
 
         userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
-
-    if puzzle.checkStateEquality(userPuzzle, goalState):
-        print("Yay!")
 
     return
 
