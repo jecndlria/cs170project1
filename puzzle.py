@@ -1,6 +1,6 @@
 # --- BEGIN TEST CASES ---
 
-trivial = [[1, 2, 3],
+goalState = [[1, 2, 3],
            [4, 5, 6],
            [7, 8, 0]]
 
@@ -20,16 +20,26 @@ oh_boy = [[8, 7, 1],
           [6, 0, 2],
           [5, 4, 3]]
 
-eight_goal_state = [[1, 2, 3],
-                    [4, 5, 6],
-                    [7, 8, 0]]
+impossible = [[0, 7, 2],
+              [4, 6, 1],
+              [3, 5, 8]]
 
 # --- END TEST CASES ---
 
 def print_puzzle(puzzle):
     for i in range(0, 3):
-        print(puzzle[i])
-        print('\n')
+        print(puzzle[i], end="")
+        print('\n', end="")
 
-def createPuzzle(userInput): 
-    return 0
+def createPuzzle(userRowOne, userRowTwo, userRowThree): 
+    userRowOne = userRowOne.split()
+    userRowTwo = userRowTwo.split()
+    userRowThree = userRowThree.split()
+
+    for i in range(3):
+        userRowOne[i] = int(userRowOne[i])
+        userRowTwo[i] = int(userRowTwo[i])
+        userRowThree[i] = int(userRowThree[i])
+    
+    userPuzzle = [userRowOne, userRowTwo, userRowThree]
+    return userPuzzle
