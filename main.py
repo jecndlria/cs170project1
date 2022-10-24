@@ -1,10 +1,9 @@
-import numpy, anytree, puzzle, search
+import anytree, puzzle, search
 
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
 
-
-def initializeGame():
+def main():
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
         selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 5 (inclusive): ")
@@ -34,7 +33,14 @@ def initializeGame():
 
         userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
 
-    puzzle.print_puzzle(userPuzzle)
-    return userPuzzle
+    #puzzle.print_puzzle(userPuzzle)
 
-initializeGame()
+    if puzzle.checkGoalState(userPuzzle):
+        print("Yay!")
+    else:
+        print("L")
+
+    return
+
+if __name__ == "__main__":
+    main()

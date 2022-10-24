@@ -1,8 +1,9 @@
-# --- BEGIN TEST CASES ---
+import numpy
 
+# --- BEGIN TEST CASES ---
 goalState = [[1, 2, 3],
-           [4, 5, 6],
-           [7, 8, 0]]
+             [4, 5, 6],
+             [7, 8, 0]]
 
 veryEasy = [[1, 2, 3],
             [4, 5, 6],
@@ -43,3 +44,10 @@ def createPuzzle(userRowOne, userRowTwo, userRowThree):
     
     userPuzzle = [userRowOne, userRowTwo, userRowThree]
     return userPuzzle
+
+def checkGoalState(puzzle: list[list[int]]):
+    print_puzzle(puzzle)
+    print_puzzle(goalState)
+    for i in range(3):
+        if not numpy.array_equal(puzzle[i], goalState[i]): return False
+    return True
