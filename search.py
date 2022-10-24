@@ -1,10 +1,12 @@
 import anytree
 
-visitedStates = []
+visitedStates = {}
 currentDepth = 0
 nodesExpanded = 0
 maxQueueSize = 0
 
+def generalSearch(puzzle: list[list[int]], heuristic):
+    return 0
 
 # Intuition behind checking the legal moves: Depends on location of '0'
     # If in the middle, then 4 legal moves.
@@ -13,9 +15,6 @@ maxQueueSize = 0
 
 # A legal move is simply to swap the '0' with any adjacent element on the board.
 def checkLegalOperations(puzzle: list[list[int]]):
-    return 0
-
-def generalSearch(puzzle: list[list[int]], heuristic):
     return 0
 
 def uniformCostSearch(puzzle: list[list[int]]):
