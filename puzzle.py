@@ -45,9 +45,7 @@ def createPuzzle(userRowOne, userRowTwo, userRowThree):
     userPuzzle = [userRowOne, userRowTwo, userRowThree]
     return userPuzzle
 
-def checkGoalState(puzzle: list[list[int]]):
-    print_puzzle(puzzle)
-    print_puzzle(goalState)
+def checkStateEquality(puzzle0: list[list[int]], puzzle1: list[list[int]]):
     for i in range(3):
-        if not numpy.array_equal(puzzle[i], goalState[i]): return False
+        if not numpy.array_equal(puzzle0[i], puzzle1[i]): return False
     return True

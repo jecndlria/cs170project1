@@ -33,12 +33,8 @@ def main():
 
         userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
 
-    #puzzle.print_puzzle(userPuzzle)
-
-    if puzzle.checkGoalState(userPuzzle):
+    if puzzle.checkStateEquality(userPuzzle, goalState):
         print("Yay!")
-    else:
-        print("L")
 
     return
 
