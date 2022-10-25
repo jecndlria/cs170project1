@@ -45,12 +45,36 @@ def misplacedTileHeuristic(puzzle: list[list[int]]):
     # However, in this heuristic, we must now find how many spaces the actual blocks are displaced.
     # In order to find how far displaced a block is, we must find how many rows and columns away the block is.
         # The sum of this displacement is the total displacement, since diagonal moves are not legal.
+
         # 0 0 8
         # 0 0 0
         # 0 0 0
         # In this example, the 8 is two rows, and one column away. The total displacement is 2 + 1 = 3 blocks.
+
     # The problem becomes trivial once we realize that we can simply take the ordered pair of the location of the misplaced block...
         # .. and the ordered pair of where it should be, and take the displacement by simply doing some (absolute value) subtraction.
-    # How do we find the misplaced blocks? Use the algorithm defined in the misplaced tile heuristic!
+        # In the example above: 8 is at (0, 2), when it should be at (2, 1).
+            # | 0 - 2 | + | 2 - 1 | = 3.
+    # How do we find the misplaced blocks and where they should be? We just use the algorithm defined in the misplaced tile heuristic!
+    # How do we find the ordered pair where the misplaced block SHOULD go?
+        # We need to save the correct places where our blocks go in a dictionary.
+        # We can use another dictionary to save these pairs with the correct number, then we can simply do math with the ordered pairs to find the Manhattan distance!
 def manhattanDistanceHeuristic(puzzle: list[list[int]]):
-    return 
+    currentValue = 1
+    manhattanDistance = 0
+    misplacedPairMapping = {}
+    correctPairMapping = {}
+    for i in range(len(puzzle)):
+        for j in range(len(puzzle[i])):
+            correctPairMapping[currentValue] = [i, j]
+            if puzzle[i][j] != 0 and puzzle[i][j] != currentValue:
+                misplacedPairMapping[puzzle[i][j]] = [i, j]
+            currentValue += 1
+
+    for key in misplacedPairMapping:
+        misplacedPair = misplacedPairMapping[key]
+        misplacedPairValue = puzzle[misplacedPair[0]][misplacedPair[1]]
+        correctPair = correctPairMapping[misplacedPairValue]
+        manhattanDistance += abs(misplacedPair[0] - correctPair[0]) + abs(misplacedPair[1] - correctPair[1])
+        
+    return manhattanDistance

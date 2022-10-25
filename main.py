@@ -32,6 +32,8 @@ def main():
     #     userRowThree = input("Enter Row #3: ")
 
     #     userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
+    print(search.manhattanDistanceHeuristic([[3,2,8],[4,5,6],[7,1,0]]))
+    print(search.manhattanDistanceHeuristic(oh_boy))
     return
 
 if __name__ == "__main__":

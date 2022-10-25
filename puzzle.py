@@ -33,6 +33,7 @@ def print_puzzle(puzzle: list[list[int]]):
         print('\n', end="")
 
 # Creates puzzle from user input (taken from project manual example)
+# NOTE: does not scale, requires changes
 def createPuzzle(userRowOne, userRowTwo, userRowThree): 
     userRowOne = userRowOne.split()
     userRowTwo = userRowTwo.split()
@@ -48,6 +49,6 @@ def createPuzzle(userRowOne, userRowTwo, userRowThree):
 
 # Checks if two states are equal
 def checkStateEquality(puzzle0: list[list[int]], puzzle1: list[list[int]]):
-    for i in range(3):
+    for i in len(puzzle0):
         if not numpy.array_equal(puzzle0[i], puzzle1[i]): return False
     return True
