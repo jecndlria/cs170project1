@@ -1,6 +1,6 @@
 import anytree
 
-visitedStates = {}
+visitedStates = {} # MAKE THIS A HASh TABLE!
 currentDepth = 0
 nodesExpanded = 0
 maxQueueSize = 0
@@ -58,23 +58,27 @@ def misplacedTileHeuristic(puzzle: list[list[int]]):
     # How do we find the misplaced blocks and where they should be? We just use the algorithm defined in the misplaced tile heuristic!
     # How do we find the ordered pair where the misplaced block SHOULD go?
         # We need to save the correct places where our blocks go in a dictionary.
+            # Note that we can't save just the pairs we need as we go: what if you find a misplaced block whose correct spot you have already passed?
         # We can use another dictionary to save these pairs with the correct number, then we can simply do math with the ordered pairs to find the Manhattan distance!
+        # Despite heavy memory usage (two dictionaries), this makes this function easy to scale up for bigger puzzle sizes.
 def manhattanDistanceHeuristic(puzzle: list[list[int]]):
-    currentValue = 1
-    manhattanDistance = 0
-    misplacedPairMapping = {}
-    correctPairMapping = {}
+    # Initialize needed variables
+    currentValue = 1                                    # Keeps track of current block position
+    manhattanDistance = 0                               # Counter for manhattan distance
+    misplacedPairMapping = {}                           # Dictionary keeping track of the ordered pairs with incorrect blocks
+    correctPairMapping = {}                             # Dictonary that maps the correct ordered pair for each block
+
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])):
-            correctPairMapping[currentValue] = [i, j]
-            if puzzle[i][j] != 0 and puzzle[i][j] != currentValue:
-                misplacedPairMapping[puzzle[i][j]] = [i, j]
+            correctPairMapping[currentValue] = [i, j]                   # Build dictionary of correct ordered pairs for blocks
+            if puzzle[i][j] != 0 and puzzle[i][j] != currentValue:      # If the current block isn't a blank AND it is misplaced...
+                misplacedPairMapping[puzzle[i][j]] = [i, j]             # Map the incorrect block value with the current pair.
             currentValue += 1
 
     for key in misplacedPairMapping:
-        misplacedPair = misplacedPairMapping[key]
-        misplacedPairValue = puzzle[misplacedPair[0]][misplacedPair[1]]
-        correctPair = correctPairMapping[misplacedPairValue]
+        misplacedPair = misplacedPairMapping[key]                       # Retrieve the pair with the incorrect block value.
+        misplacedPairValue = puzzle[misplacedPair[0]][misplacedPair[1]] # Retrieve the incorrect block value.
+        correctPair = correctPairMapping[misplacedPairValue]            # Use the incorrect block value to retrieve the correct ordered pair for that block value from the dictionary with the correct ordered pairs.
         manhattanDistance += abs(misplacedPair[0] - correctPair[0]) + abs(misplacedPair[1] - correctPair[1])
         
     return manhattanDistance
