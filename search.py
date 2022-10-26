@@ -1,9 +1,24 @@
+from distutils.command.build import build
 import anytree
+from puzzle import goalState
 
 visitedStates = {} # MAKE THIS A HASh TABLE!
 currentDepth = 0
 nodesExpanded = 0
 maxQueueSize = 0
+
+# This function is used to build the dictonary used in the Manhattan Distance Heuristic.
+# It builds upon initialization in order to save time and memory.
+def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
+    correctPairMapping = {}
+    currentValue = 1
+    for i in range(len(puzzle)):
+        for j in range(len(puzzle[i])):
+            correctPairMapping[currentValue] = [i, j]
+            currentValue += 1
+    return correctPairMapping
+
+correctPairMapping = buildCorrectPairMappingDictionary(goalState)                          # Dictonary that maps the correct ordered pair for each block
 
 def generalSearch(puzzle: list[list[int]], heuristic):
     return 0
@@ -61,12 +76,12 @@ def misplacedTileHeuristic(puzzle: list[list[int]]):
             # Note that we can't save just the pairs we need as we go: what if you find a misplaced block whose correct spot you have already passed?
         # We can use another dictionary to save these pairs with the correct number, then we can simply do math with the ordered pairs to find the Manhattan distance!
         # Despite heavy memory usage (two dictionaries), this makes this function easy to scale up for bigger puzzle sizes.
+
 def manhattanDistanceHeuristic(puzzle: list[list[int]]):
     # Initialize needed variables
     currentValue = 1                                    # Keeps track of current block position
     manhattanDistance = 0                               # Counter for manhattan distance
     misplacedPairMapping = {}                           # Dictionary keeping track of the ordered pairs with incorrect blocks
-    correctPairMapping = {}                             # Dictonary that maps the correct ordered pair for each block
 
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])):
