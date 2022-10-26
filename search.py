@@ -14,7 +14,7 @@ def generalSearch(puzzle: list[list[int]], heuristic):
     # If in corner, then 2 legal moves.
 
 # A legal move is simply to swap the '0' with any adjacent element on the board.
-def checkLegalOperations(puzzle: list[list[int]]):
+def expandNode(puzzle: list[list[int]]):
     return 0
 
 # Intuition behind the Misplaced Tile Heuristic:
