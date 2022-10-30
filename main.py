@@ -1,9 +1,9 @@
 import puzzle, search
-from anytree import Node, RenderTree
-
+from node import Node
 
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
+from search import expandNode
 
 def main():
     # puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
@@ -36,6 +36,8 @@ def main():
     #     userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
     print(search.manhattanDistanceHeuristic([[3,2,8],[4,5,6],[7,1,0]]))
     print(search.manhattanDistanceHeuristic(oh_boy))
+    expandNode(Node(oh_boy))
+
     return
 
 if __name__ == "__main__":

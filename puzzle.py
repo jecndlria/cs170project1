@@ -48,7 +48,7 @@ def checkStateEquality(puzzle0: list[list[int]], puzzle1: list[list[int]]):
         if not numpy.array_equal(puzzle0[i], puzzle1[i]): return False
     return True
 
-def print_puzzle(self):
+def printPuzzle(puzzle: list[list[int]]):
     for i in range(0, 3):
-        print(self.puzzle[i], end="")
+        print(puzzle[i], end="")
         print('\n', end="")

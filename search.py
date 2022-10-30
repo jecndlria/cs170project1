@@ -1,6 +1,6 @@
 from sre_constants import FAILURE
 import heapq
-from puzzle import goalState, checkStateEquality
+from puzzle import goalState, checkStateEquality, printPuzzle
 from node import Node
 
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
@@ -45,8 +45,53 @@ def generalSearch(problem: list[list[int]], heuristic: int):
 # Expands a node by calculating all legal moves, and assigning those possible game states to the parent node.
 # Is passed into queueing function so that their heuristic is calculated.
 def expandNode(node: Node):
+    initialState = node.puzzle
+    currentState = initialState
+    locationOfBlank = [0, 0]
+    nodes = []
+
+    # Find the blank location
+    for i in range(len(node.puzzle)):
+        for j in range(len(node.puzzle[i])):
+            if node.puzzle[i][j] == 0:
+                locationOfBlank = [i, j]
+                break
     
-    return 0
+    # For any size puzzle, there will be at most 4 legal moves.
+    blankX = locationOfBlank[0]
+    blankY = locationOfBlank[1]
+    # Can you move the blank left?
+    if (blankX - 1) >= 0:
+        # Swap the blank left.
+        currentState[blankX][blankY], currentState[blankX - 1][blankY] = currentState[blankX - 1][blankY], currentState[blankX][blankY]
+        nodes.append(Node(currentState))      # Add the state to the list of nodes.
+        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        print("left")
+    if (blankX + 1) < len(node.puzzle[blankX]):
+        # Swap the blank right.
+        currentState[blankX][blankY], currentState[blankX + 1][blankY] = currentState[blankX + 1][blankY], currentState[blankX][blankY]
+        nodes.append(Node(currentState))      # Add the state to the list of nodes.
+        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        print("right")
+    if (blankY - 1) >= 0:
+        # Swap the blank up.
+        currentState[blankX][blankY], currentState[blankX][blankY - 1] = currentState[blankX][blankY - 1], currentState[blankX][blankY]
+        nodes.append(Node(currentState))      # Add the state to the list of nodes.
+        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        print("up")
+    if (blankY + 1) < len(node.puzzle[blankY]):
+        # Swap the blank down.
+        currentState[blankX][blankY], currentState[blankX][blankY + 1] = currentState[blankX][blankY + 1], currentState[blankX][blankY]
+        nodes.append(Node(currentState))      # Add the state to the list of nodes.
+        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        print("down")
+
+
+    node.children = nodes
+    for i in range(len(nodes)):
+        printPuzzle(nodes[i].puzzle)
+        print("\n")
+    return nodes
 
 def uniformCostSearch(puzzle: list[list[int]]):
     return 0
@@ -82,10 +127,7 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
     return manhattanDistance
 
 def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
-    if heuristic == 0: return uniformCostSearch(puzzle)
-    if heuristic == 1: return misplacedTileHeuristic(puzzle)
-    if heuristic == 2: return manhattanDistanceHeuristic(puzzle)
-    else: return 0  # Uniform Cost Search is default
+    return 0  # Uniform Cost Search is default
 
 # --- BEGIN NOTES ---
 
