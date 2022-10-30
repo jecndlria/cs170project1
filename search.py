@@ -22,8 +22,6 @@ def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
 
 visitedStates = {} # MAKE THIS A HASH TABLE, SO LOOKUP OF REPEATED STATES IS EASY!
 currentDepth = 0
-nodesExpanded = 0
-maxQueueSize = 0
 correctPairMapping = buildCorrectPairMappingDictionary(goalState)                          # Dictonary that maps the correct ordered pair for each block
 
 # function general-search(problem, QUEUEING-FUNCTION)
@@ -39,23 +37,36 @@ def generalSearch(problem: list[list[int]], heuristic: int):
 
     start = time.time()
     print("hello")
-    end = time.time()
-    print(end - start)
+
+    nodesExpanded = 0
+    maxQueueSize = 0
 
     nodes = []
-    #nodes = heapq.heapify(nodes)
-    nodes = heapq.heappush(nodes, (0, Node(problem)))
-    print(nodes)
+    heapq.heapify(nodes)
+    heapq.heappush(nodes, (0, Node(problem)))
+    
     while True:
+        if len(nodes) > maxQueueSize: maxQueueSize = len(nodes)
         if not nodes: 
             print("FAIL")
             return FAILURE
-        node = heapq.heappop(nodes)
-        while hash(str(node.puzzle)) in visitedStates: node = heapq.heappop(nodes)
+        nodeTuple = heapq.heappop(nodes)
+        node = nodeTuple[1]
+        while hash(str(node.puzzle)) in visitedStates: 
+            print("REPEAT!")
+            nodeTuple = heapq.heappop(nodes)
+            node = nodeTuple[1]
         visitedStates[hash(str(node.puzzle))] = node.puzzle
         print("Current Puzzle: ")
-        printPuzzle(node)
-        if checkStateEquality(node, goalState): return node
+        printPuzzle(node.puzzle)
+        print("Current depth: ", node.depth)
+        nodesExpanded += 1
+        if checkStateEquality(node.puzzle, goalState): 
+            print("SUCCESS")
+            print("TIME ELAPSED: ", time.time() - start)
+            print("NODES EXPANDED: ", nodesExpanded)
+            print("MAX QUEUE SIZE: ", maxQueueSize)
+            return node
         nodes = queueingFunction(nodes, expandNode(node), heuristic)
 
 # Expands a node by calculating all legal moves, and assigning those possible game states to the parent node.
@@ -151,7 +162,7 @@ def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
         if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
         else: heuristicValue = 0
         node.priceOfNode = node.depth + heuristicValue
-        nodeQueue = heapq.heappush(nodeQueue, (node.priceOfNode, node))
+        heapq.heappush(nodeQueue, (node.priceOfNode, node))
     return nodeQueue
 
 # --- BEGIN NOTES ---

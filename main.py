@@ -37,6 +37,7 @@ def main():
         userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
     
     heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic")
+    heuristic = int(heuristic)
     generalSearch(userPuzzle, heuristic)
     return
 
