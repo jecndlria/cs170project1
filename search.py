@@ -76,7 +76,6 @@ def expandNode(node: Node):
         newChildRight = Node(copy.deepcopy(currentState.puzzle))
         nodes.append(newChildRight)
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
-        print("right")
 
     if (blankY - 1) >= 0:
         # Swap the blank up.
@@ -84,7 +83,6 @@ def expandNode(node: Node):
         newChildUp = Node(copy.deepcopy(currentState.puzzle))
         nodes.append(newChildUp)
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
-        print("up")
 
     if (blankY + 1) < len(node.puzzle[blankY]):
         # Swap the blank down.
@@ -92,13 +90,10 @@ def expandNode(node: Node):
         newChildDown = Node(copy.deepcopy(currentState.puzzle))
         nodes.append(newChildDown)   
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
-        print("down")
 
+    for child in nodes:
+            child.depth = node.depth + 1
     node.children = nodes
-    for i in range(len(nodes)):
-        printPuzzle(nodes[i].puzzle)
-        print()
-    print(nodes)
     return nodes
 
 def uniformCostSearch(puzzle: list[list[int]]):
