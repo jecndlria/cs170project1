@@ -1,10 +1,8 @@
-import puzzle, search
-from node import Node
+import puzzle
 
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
-from search import expandNode, generalSearch
-import copy
+from search import generalSearch
 
 def main():
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")

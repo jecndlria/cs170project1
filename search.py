@@ -21,7 +21,6 @@ def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
     return correctPairMapping
 
 visitedStates = {} # MAKE THIS A HASH TABLE, SO LOOKUP OF REPEATED STATES IS EASY!
-currentDepth = 0
 correctPairMapping = buildCorrectPairMappingDictionary(goalState)                          # Dictonary that maps the correct ordered pair for each block
 
 # function general-search(problem, QUEUEING-FUNCTION)
