@@ -65,33 +65,33 @@ def expandNode(node: Node):
     if (blankX - 1) >= 0:
         # Swap the blank left.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX - 1][blankY] = currentState.puzzle[blankX - 1][blankY], currentState.puzzle[blankX][blankY]
-        newChildLeft = Node(currentState.puzzle)
+        newChildLeft = Node(copy.deepcopy(currentState.puzzle))
         nodes.append(newChildLeft)                          # Add the state to the list of nodes.
-        currentState.puzzle = initialState
+        currentState.puzzle = copy.deepcopy(initialState)
         print("left")
 
     if (blankX + 1) < len(node.puzzle[blankX]):
         # Swap the blank right.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX + 1][blankY] = currentState.puzzle[blankX + 1][blankY], currentState.puzzle[blankX][blankY]
-        newChildRight = Node(currentState.puzzle)
-        nodes.append(newChildRight)        
-        currentState.puzzle = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        newChildRight = Node(copy.deepcopy(currentState.puzzle))
+        nodes.append(newChildRight)
+        currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
         print("right")
 
     if (blankY - 1) >= 0:
         # Swap the blank up.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX][blankY - 1] = currentState.puzzle[blankX][blankY - 1], currentState.puzzle[blankX][blankY]
-        newChildUp = Node(currentState.puzzle)
+        newChildUp = Node(copy.deepcopy(currentState.puzzle))
         nodes.append(newChildUp)
-        currentState.puzzle = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
         print("up")
 
     if (blankY + 1) < len(node.puzzle[blankY]):
         # Swap the blank down.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX][blankY + 1] = currentState.puzzle[blankX][blankY + 1], currentState.puzzle[blankX][blankY]
-        newChildDown = Node(currentState.puzzle)
-        nodes.append(newChildDown)         
-        currentState.puzzle = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        newChildDown = Node(copy.deepcopy(currentState.puzzle))
+        nodes.append(newChildDown)   
+        currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
         print("down")
 
     node.children = nodes
