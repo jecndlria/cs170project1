@@ -1,6 +1,7 @@
 from sre_constants import FAILURE
 import heapq
 from puzzle import goalState, checkStateEquality
+from node import Node
 
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
 # It builds upon initialization in order to save time and memory.
@@ -34,7 +35,7 @@ correctPairMapping = buildCorrectPairMappingDictionary(goalState)               
 def generalSearch(problem: list[list[int]], heuristic: int):
     nodes = []
     nodes = heapq.heapify(nodes)
-    nodes = heapq.heappush(problem)
+    nodes = heapq.heappush(Node(problem))
     while True:
         if not nodes: return FAILURE
         node = heapq.heappop(nodes)
