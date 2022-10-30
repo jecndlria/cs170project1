@@ -27,30 +27,28 @@ impossible = [[0, 7, 2],
 
 # --- END TEST CASES ---
 
-class Puzzle:
-    def __init__(self):
-        self.puzzle = []
-        self.depth = 0
-    # Creates puzzle from user input (taken from project manual example)
-    # NOTE: does not scale, requires changes
-    def createPuzzle(self, userRowOne, userRowTwo, userRowThree): 
-        userRowOne = userRowOne.split()
-        userRowTwo = userRowTwo.split()
-        userRowThree = userRowThree.split()
+# Creates puzzle from user input (taken from project manual example)
+# NOTE: does not scale, requires changes
+def createPuzzle(userRowOne, userRowTwo, userRowThree): 
+    userRowOne = userRowOne.split()
+    userRowTwo = userRowTwo.split()
+    userRowThree = userRowThree.split()
 
-        for i in range(3):
-            userRowOne[i] = int(userRowOne[i])
-            userRowTwo[i] = int(userRowTwo[i])
-            userRowThree[i] = int(userRowThree[i])
-        
-        self.puzzle = [userRowOne, userRowTwo, userRowThree]
-    def print_puzzle(self):
-        for i in range(0, 3):
-            print(self.puzzle[i], end="")
-            print('\n', end="")
+    for i in range(3):
+        userRowOne[i] = int(userRowOne[i])
+        userRowTwo[i] = int(userRowTwo[i])
+        userRowThree[i] = int(userRowThree[i])
 
+    puzzle = [userRowOne, userRowTwo, userRowThree]
+    return puzzle
+    
 # Checks if two states are equal
 def checkStateEquality(puzzle0: Puzzle, puzzle1: Puzzle):
     for i in len(puzzle0.puzzle):
         if not numpy.array_equal(puzzle0.puzzle[i], puzzle1.puzzle[i]): return False
     return True
+
+def print_puzzle(self):
+    for i in range(0, 3):
+        print(self.puzzle[i], end="")
+        print('\n', end="")
