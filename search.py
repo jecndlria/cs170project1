@@ -1,6 +1,6 @@
 from sre_constants import FAILURE
 import heapq
-from puzzle import createPuzzle, goalState, checkStateEquality, printPuzzle
+from puzzle import goalState, checkStateEquality, printPuzzle
 from node import Node
 import copy
 import time
@@ -36,8 +36,6 @@ correctPairMapping = buildCorrectPairMappingDictionary(goalState)               
 def generalSearch(problem: list[list[int]], heuristic: int):
 
     start = time.time()
-    print("hello")
-
     nodesExpanded = 0
     maxQueueSize = 0
 
