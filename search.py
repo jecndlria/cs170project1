@@ -3,6 +3,7 @@ import heapq
 from puzzle import createPuzzle, goalState, checkStateEquality, printPuzzle
 from node import Node
 import copy
+import time
 
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
 # It builds upon initialization in order to save time and memory.
@@ -35,14 +36,25 @@ correctPairMapping = buildCorrectPairMappingDictionary(goalState)               
 #   end
 
 def generalSearch(problem: list[list[int]], heuristic: int):
+
+    start = time.time()
+    print("hello")
+    end = time.time()
+    print(end - start)
+
     nodes = []
-    nodes = heapq.heapify(nodes)
-    nodes = heapq.heappush(Node(problem))
+    #nodes = heapq.heapify(nodes)
+    nodes = heapq.heappush(nodes, (0, Node(problem)))
+    print(nodes)
     while True:
-        if not nodes: return FAILURE
+        if not nodes: 
+            print("FAIL")
+            return FAILURE
         node = heapq.heappop(nodes)
         while hash(str(node.puzzle)) in visitedStates: node = heapq.heappop(nodes)
         visitedStates[hash(str(node.puzzle))] = node.puzzle
+        print("Current Puzzle: ")
+        printPuzzle(node)
         if checkStateEquality(node, goalState): return node
         nodes = queueingFunction(nodes, expandNode(node), heuristic)
 
@@ -133,7 +145,14 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
     return manhattanDistance
 
 def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
-    return 0  # Uniform Cost Search is default
+    for node in nodesToQueue:
+        if heuristic == 0: heuristicValue = 0
+        if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)
+        if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
+        else: heuristicValue = 0
+        node.priceOfNode = node.depth + heuristicValue
+        nodeQueue = heapq.heappush(nodeQueue, (node.priceOfNode, node))
+    return nodeQueue
 
 # --- BEGIN NOTES ---
 
