@@ -1,7 +1,8 @@
 from sre_constants import FAILURE
 import heapq
-from puzzle import goalState, checkStateEquality, printPuzzle
+from puzzle import createPuzzle, goalState, checkStateEquality, printPuzzle
 from node import Node
+import copy
 
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
 # It builds upon initialization in order to save time and memory.
@@ -46,10 +47,10 @@ def generalSearch(problem: list[list[int]], heuristic: int):
 # Is passed into queueing function so that their heuristic is calculated.
 def expandNode(node: Node):
     initialState = node.puzzle
-    currentState = initialState
+    currentState = Node(copy.deepcopy(initialState))
     locationOfBlank = [0, 0]
     nodes = []
-
+        
     # Find the blank location
     for i in range(len(node.puzzle)):
         for j in range(len(node.puzzle[i])):
@@ -63,34 +64,41 @@ def expandNode(node: Node):
     # Can you move the blank left?
     if (blankX - 1) >= 0:
         # Swap the blank left.
-        currentState[blankX][blankY], currentState[blankX - 1][blankY] = currentState[blankX - 1][blankY], currentState[blankX][blankY]
-        nodes.append(Node(currentState))      # Add the state to the list of nodes.
-        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        currentState.puzzle[blankX][blankY], currentState.puzzle[blankX - 1][blankY] = currentState.puzzle[blankX - 1][blankY], currentState.puzzle[blankX][blankY]
+        newChildLeft = Node(currentState.puzzle)
+        nodes.append(newChildLeft)                          # Add the state to the list of nodes.
+        currentState.puzzle = initialState
         print("left")
+
     if (blankX + 1) < len(node.puzzle[blankX]):
         # Swap the blank right.
-        currentState[blankX][blankY], currentState[blankX + 1][blankY] = currentState[blankX + 1][blankY], currentState[blankX][blankY]
-        nodes.append(Node(currentState))      # Add the state to the list of nodes.
-        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        currentState.puzzle[blankX][blankY], currentState.puzzle[blankX + 1][blankY] = currentState.puzzle[blankX + 1][blankY], currentState.puzzle[blankX][blankY]
+        newChildRight = Node(currentState.puzzle)
+        nodes.append(newChildRight)        
+        currentState.puzzle = initialState           # Reset the currentState variable back to the original state to test the other cases.
         print("right")
+
     if (blankY - 1) >= 0:
         # Swap the blank up.
-        currentState[blankX][blankY], currentState[blankX][blankY - 1] = currentState[blankX][blankY - 1], currentState[blankX][blankY]
-        nodes.append(Node(currentState))      # Add the state to the list of nodes.
-        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        currentState.puzzle[blankX][blankY], currentState.puzzle[blankX][blankY - 1] = currentState.puzzle[blankX][blankY - 1], currentState.puzzle[blankX][blankY]
+        newChildUp = Node(currentState.puzzle)
+        nodes.append(newChildUp)
+        currentState.puzzle = initialState           # Reset the currentState variable back to the original state to test the other cases.
         print("up")
+
     if (blankY + 1) < len(node.puzzle[blankY]):
         # Swap the blank down.
-        currentState[blankX][blankY], currentState[blankX][blankY + 1] = currentState[blankX][blankY + 1], currentState[blankX][blankY]
-        nodes.append(Node(currentState))      # Add the state to the list of nodes.
-        currentState = initialState           # Reset the currentState variable back to the original state to test the other cases.
+        currentState.puzzle[blankX][blankY], currentState.puzzle[blankX][blankY + 1] = currentState.puzzle[blankX][blankY + 1], currentState.puzzle[blankX][blankY]
+        newChildDown = Node(currentState.puzzle)
+        nodes.append(newChildDown)         
+        currentState.puzzle = initialState           # Reset the currentState variable back to the original state to test the other cases.
         print("down")
-
 
     node.children = nodes
     for i in range(len(nodes)):
         printPuzzle(nodes[i].puzzle)
-        print("\n")
+        print()
+    print(nodes)
     return nodes
 
 def uniformCostSearch(puzzle: list[list[int]]):

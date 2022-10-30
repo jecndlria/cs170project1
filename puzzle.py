@@ -34,7 +34,7 @@ def createPuzzle(userRowOne, userRowTwo, userRowThree):
     userRowTwo = userRowTwo.split()
     userRowThree = userRowThree.split()
 
-    for i in range(3):
+    for i in range(len(userRowOne)):
         userRowOne[i] = int(userRowOne[i])
         userRowTwo[i] = int(userRowTwo[i])
         userRowThree[i] = int(userRowThree[i])
