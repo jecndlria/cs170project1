@@ -1,7 +1,7 @@
+from sre_constants import FAILURE
 import anytree
 import heapq
-from puzzle import goalState
-from collections import deque
+from puzzle import goalState, checkStateEquality
 
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
 # It builds upon initialization in order to save time and memory.
@@ -32,11 +32,20 @@ correctPairMapping = buildCorrectPairMappingDictionary(goalState)               
 #       nodes = QUEUEING-FUNCTION(nodes, EXPAND(node, problem.OPERATORS))
 #   end
 
-def generalSearch(puzzle: list[list[int]], queueingFunction: int):
-    return 0
-
+def generalSearch(problem: list[list[int]], queueingFunction: int):
+    nodes = []
+    nodes = heapq.heapify(nodes)
+    nodes = heapq.heappush(problem)
+    while True:
+        if not nodes: return FAILURE
+        node = heapq.heappop(nodes)
+        if checkStateEquality(node, goalState): return node
+        nodes = queueingFunction(nodes, queueingFunction)
 
 def expandNode(puzzle: list[list[int]]):
+    return 0
+
+def uniformCostSearch(puzzle: list[list[int]]):
     return 0
 
 def misplacedTileHeuristic(puzzle: list[list[int]]):
@@ -62,12 +71,18 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
             currentValue += 1
 
     for key in misplacedPairMapping:
-        misplacedPair = misplacedPairMapping[key]                       # Retrieve the pair with the incorrect block value.
-        misplacedPairValue = puzzle[misplacedPair[0]][misplacedPair[1]] # Retrieve the incorrect block value.
-        correctPair = correctPairMapping[misplacedPairValue]            # Use the incorrect block value to retrieve the correct ordered pair for that block value from the dictionary with the correct ordered pairs.
-        manhattanDistance += abs(misplacedPair[0] - correctPair[0]) + abs(misplacedPair[1] - correctPair[1])
+        misplacedPair = misplacedPairMapping[key]                           # Retrieve the pair with the incorrect block value.
+        misplacedPairValue = puzzle[misplacedPair[0]][misplacedPair[1]]     # Retrieve the incorrect block value.
+        correctPair = correctPairMapping[misplacedPairValue]                # Use the incorrect block value to retrieve the correct ordered pair for that block value from the dictionary with the correct ordered pairs.
+        manhattanDistance += abs(misplacedPair[0] - correctPair[0]) + abs(misplacedPair[1] - correctPair[1])    # Calculate Manhattan distance by finding the sums of the absolute difference of the ordered pairs.
         
     return manhattanDistance
+
+def queueingFunction(puzzle: list[list[int]], function: int):
+    if function == 0: return uniformCostSearch(puzzle)
+    if function == 1: return misplacedTileHeuristic(puzzle)
+    if function == 2: return manhattanDistanceHeuristic(puzzle)
+    else: return 0  # Uniform Cost Search is default
 
 # --- BEGIN NOTES ---
 
@@ -105,6 +120,8 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
 
     # The problem becomes trivial once we realize that we can simply take the ordered pair of the location of the misplaced block...
         # .. and the ordered pair of where it should be, and take the displacement by simply doing some (absolute value) subtraction.
+        # In fact, this is literally the definition of Manhattan Distance.
+            # https://iq.opengenus.org/manhattan-distance/#:~:text=Manhattan%20distance%20is%20a%20distance,all%20dimensions%20of%20two%20points.
         # In the example above: 8 is at (0, 2), when it should be at (2, 1).
             # | 0 - 2 | + | 2 - 1 | = 3.
     # How do we find the misplaced blocks and where they should be? We just use the algorithm defined in the misplaced tile heuristic!
