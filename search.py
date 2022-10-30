@@ -8,6 +8,7 @@ import copy
 # It builds upon initialization in order to save time and memory.
 # Also, it works independent of size. No need to change for different sizes of puzzle!
 # Note: This function can also be used to generate the goal state.
+
 def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
     correctPairMapping = {}
     currentValue = 1
@@ -40,6 +41,8 @@ def generalSearch(problem: list[list[int]], heuristic: int):
     while True:
         if not nodes: return FAILURE
         node = heapq.heappop(nodes)
+        while hash(str(node.puzzle)) in visitedStates: node = heapq.heappop(nodes)
+        visitedStates[hash(str(node.puzzle))] = node.puzzle
         if checkStateEquality(node, goalState): return node
         nodes = queueingFunction(nodes, expandNode(node), heuristic)
 
@@ -65,34 +68,34 @@ def expandNode(node: Node):
     if (blankX - 1) >= 0:
         # Swap the blank left.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX - 1][blankY] = currentState.puzzle[blankX - 1][blankY], currentState.puzzle[blankX][blankY]
-        newChildLeft = Node(copy.deepcopy(currentState.puzzle))
-        nodes.append(newChildLeft)                          # Add the state to the list of nodes.
-        currentState.puzzle = copy.deepcopy(initialState)
-        print("left")
+        newChildLeft = Node(copy.deepcopy(currentState.puzzle))     # Create a new Node object to push onto the list of children.
+        nodes.append(newChildLeft)                                  # Add the state to the list of nodes.
+        currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
 
     if (blankX + 1) < len(node.puzzle[blankX]):
         # Swap the blank right.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX + 1][blankY] = currentState.puzzle[blankX + 1][blankY], currentState.puzzle[blankX][blankY]
-        newChildRight = Node(copy.deepcopy(currentState.puzzle))
-        nodes.append(newChildRight)
+        newChildRight = Node(copy.deepcopy(currentState.puzzle))    # Create a new Node object to push onto the list of children.
+        nodes.append(newChildRight)                                 # Add the state to the list of nodes.
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
 
     if (blankY - 1) >= 0:
         # Swap the blank up.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX][blankY - 1] = currentState.puzzle[blankX][blankY - 1], currentState.puzzle[blankX][blankY]
-        newChildUp = Node(copy.deepcopy(currentState.puzzle))
-        nodes.append(newChildUp)
+        newChildUp = Node(copy.deepcopy(currentState.puzzle))       # Create a new Node object to push onto the list of children.
+        nodes.append(newChildUp)                                    # Add the state to the list of nodes.
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
 
     if (blankY + 1) < len(node.puzzle[blankY]):
         # Swap the blank down.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX][blankY + 1] = currentState.puzzle[blankX][blankY + 1], currentState.puzzle[blankX][blankY]
-        newChildDown = Node(copy.deepcopy(currentState.puzzle))
-        nodes.append(newChildDown)   
+        newChildDown = Node(copy.deepcopy(currentState.puzzle))     # Create a new Node object to push onto the list of children.
+        nodes.append(newChildDown)                                  # Add the state to the list of nodes.
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
 
     for child in nodes:
             child.depth = node.depth + 1
+
     node.children = nodes
     return nodes
 

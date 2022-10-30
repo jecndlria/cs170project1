@@ -4,6 +4,7 @@ from node import Node
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
 from search import expandNode
+import copy
 
 def main():
     # puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
@@ -36,7 +37,16 @@ def main():
     #     userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
     print(search.manhattanDistanceHeuristic([[3,2,8],[4,5,6],[7,1,0]]))
     print(search.manhattanDistanceHeuristic(oh_boy))
-    expandNode(Node(oh_boy))
+    expandNode(Node(doable))
+
+    object1 = Node(goalState)
+    object2 = Node(copy.deepcopy(goalState))
+
+    object1 = str(object1.puzzle)
+    object2 = str(object2.puzzle)
+
+    print(hash(object1))
+    print(hash(object2))
 
     return
 
