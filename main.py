@@ -1,4 +1,6 @@
 import puzzle, search
+from anytree import Node, RenderTree
+
 
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible

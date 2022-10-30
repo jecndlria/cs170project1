@@ -1,5 +1,4 @@
 from sre_constants import FAILURE
-import anytree
 import heapq
 from puzzle import goalState, checkStateEquality
 
@@ -32,7 +31,7 @@ correctPairMapping = buildCorrectPairMappingDictionary(goalState)               
 #       nodes = QUEUEING-FUNCTION(nodes, EXPAND(node, problem.OPERATORS))
 #   end
 
-def generalSearch(problem: list[list[int]], queueingFunction: int):
+def generalSearch(problem: list[list[int]], heuristic: int):
     nodes = []
     nodes = heapq.heapify(nodes)
     nodes = heapq.heappush(problem)
@@ -40,9 +39,12 @@ def generalSearch(problem: list[list[int]], queueingFunction: int):
         if not nodes: return FAILURE
         node = heapq.heappop(nodes)
         if checkStateEquality(node, goalState): return node
-        nodes = queueingFunction(nodes, queueingFunction)
+        nodes = queueingFunction(nodes, expandNode(node), heuristic)
 
-def expandNode(puzzle: list[list[int]]):
+# Expands a node by calculating all legal moves, and assigning those possible game states to the parent node.
+# Is passed into queueing function so that their heuristic is calculated.
+def expandNode(node: Node):
+    
     return 0
 
 def uniformCostSearch(puzzle: list[list[int]]):
@@ -78,10 +80,10 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
         
     return manhattanDistance
 
-def queueingFunction(puzzle: list[list[int]], function: int):
-    if function == 0: return uniformCostSearch(puzzle)
-    if function == 1: return misplacedTileHeuristic(puzzle)
-    if function == 2: return manhattanDistanceHeuristic(puzzle)
+def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
+    if heuristic == 0: return uniformCostSearch(puzzle)
+    if heuristic == 1: return misplacedTileHeuristic(puzzle)
+    if heuristic == 2: return manhattanDistanceHeuristic(puzzle)
     else: return 0  # Uniform Cost Search is default
 
 # --- BEGIN NOTES ---

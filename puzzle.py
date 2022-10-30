@@ -43,9 +43,9 @@ def createPuzzle(userRowOne, userRowTwo, userRowThree):
     return puzzle
     
 # Checks if two states are equal
-def checkStateEquality(puzzle0: Puzzle, puzzle1: Puzzle):
+def checkStateEquality(puzzle0: list[list[int]], puzzle1: list[list[int]]):
     for i in len(puzzle0.puzzle):
-        if not numpy.array_equal(puzzle0.puzzle[i], puzzle1.puzzle[i]): return False
+        if not numpy.array_equal(puzzle0[i], puzzle1[i]): return False
     return True
 
 def print_puzzle(self):
