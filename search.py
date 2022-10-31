@@ -13,10 +13,12 @@ import time
 def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
     correctPairMapping = {}
     currentValue = 1
+
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])):
             correctPairMapping[currentValue] = [i, j]
             currentValue += 1
+
     correctPairMapping[currentValue] = 0                        # Last tile should always be 0
     return correctPairMapping
 
@@ -65,10 +67,7 @@ def generalSearch(problem: list[list[int]], heuristic: int):
         nodesExpanded += 1
 
         if checkStateEquality(node.puzzle, goalState): 
-            print("SUCCESS")
-            print("TIME ELAPSED: ", time.time() - start)
-            print("NODES EXPANDED: ", nodesExpanded)
-            print("MAX QUEUE SIZE: ", maxQueueSize)
+            print("SUCCESS!", "TIME ELAPSED (in seconds): ", time.time() - start, "\nNODES EXPANDED: ", nodesExpanded, "\nMAX QUEUE SIZE: ", maxQueueSize)
             return node
         nodes = queueingFunction(nodes, expandNode(node), heuristic)
 
@@ -163,7 +162,7 @@ def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
         if heuristic == 0: heuristicValue = 0
         if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)
         if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
-        else: heuristicValue = 0
+        # else: heuristicValue = 0
         node.priceOfNode = node.depth + heuristicValue
         heapq.heappush(nodeQueue, (node.priceOfNode, node))
     return nodeQueue

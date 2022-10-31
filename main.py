@@ -1,10 +1,11 @@
 import puzzle
-
+import sys
 # import test cases
 from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
 from search import generalSearch
 
 def main():
+    sys.stdout=open("output/output.txt", "w")
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
         selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 5 (inclusive): ")
@@ -34,9 +35,10 @@ def main():
 
         userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
     
-    heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic")
+    heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: ")
     heuristic = int(heuristic)
     generalSearch(userPuzzle, heuristic)
+    sys.stdout.close()
     return
 
 if __name__ == "__main__":
