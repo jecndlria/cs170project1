@@ -1,5 +1,6 @@
 from datetime import datetime
 import os
+from sre_constants import FAILURE
 import puzzle
 import sys
 # import test cases
@@ -7,8 +8,11 @@ from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible, depth3
 from search import generalSearch
 
 def main():
+    # Create new file with unique name (uses date and time to ensure no conflict/overwrite)
+    # NOTE: ALL OUTPUT GOES TO THIS FILE, THERE WILL BE NO OUTPUT TO CONSOLE UNLESS THERE IS AN ERROR!
     fileName = str(datetime.now())
     sys.stdout=open(f"output/{fileName}", "w")
+
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
         selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 9 (inclusive): ")
@@ -56,7 +60,15 @@ def main():
     heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: \n")
     heuristic = int(heuristic)
     node = generalSearch(userPuzzle, heuristic)
+    if node == FAILURE:
+        sys.stdout.close()
+        print("Failure: please check output logs.")
+        return 
+
+    # Close output file to save changes
     sys.stdout.close()
+
+    # Used to name the output file properly based on heuristic and depth
     if heuristic == 0:
         heuristicStr = "UniformCostSearch"
     if heuristic == 1:
