@@ -8,7 +8,7 @@ def main():
     sys.stdout=open("output/output.txt", "w")
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
-        selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 10 (inclusive): ")
+        selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 9 (inclusive): ")
         if selectedDifficulty == '0':
             print("You have selected \'Trivial\'")
             userPuzzle = goalState
@@ -33,14 +33,14 @@ def main():
         if selectedDifficulty == '7':
             print("You have selected \'Very Hard\'")
             userPuzzle = depth20
-        if selectedDifficulty == '7':
+        if selectedDifficulty == '8':
             print("You have selected \'Oh, boy\'")
             userPuzzle = oh_boy
-        if selectedDifficulty == '8':
+        if selectedDifficulty == '9':
             print("You have selected \'Impossible\'")
             userPuzzle = impossible
-        if selectedDifficulty == '10':
-            print("You have selected \'Diameter\'")
+        else:
+            print("Secret difficulty: Computer Crasher")
             userPuzzle = depth31
     else:
         print("Enter a valid 8-puzzle configuration by each row, using a \'0\' to represent the blank spot. Separate each number with a space, and press ENTER when you finish a row.")
