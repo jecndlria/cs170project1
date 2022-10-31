@@ -58,7 +58,7 @@ def generalSearch(problem: list[list[int]], heuristic: int):
             nodeTuple = heapq.heappop(nodes)
             node = nodeTuple[1]
 
-        print("Best state to expand with f(x): ", node.depth, " and h(x): ", node.priceOfNode - node.depth)
+        print("Best state to expand with g(x): ", node.depth, " and h(x): ", node.priceOfNode - node.depth)
         visitedStates[hash(str(node.puzzle))] = node.puzzle             # Adds current node to hash table of visited states.
         printPuzzle(node.puzzle)
 
@@ -167,7 +167,7 @@ def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
         if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)     
         if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
 
-        node.priceOfNode = node.depth + heuristicValue              # Price of node: g(x) = f(x) + h(x) [depth + heuristic value]
+        node.priceOfNode = node.depth + heuristicValue              # Price of node: f(x) = g(x) + h(x) [depth + heuristic value]
         heapq.heappush(nodeQueue, (node.priceOfNode, node))         # Push the nodes onto the priority queue, with priceOfNode as the first element of the tuple so heapq knows to sort it based on price.
     return nodeQueue
 

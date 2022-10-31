@@ -76,7 +76,7 @@ def main():
     if heuristic == 2:
         heuristicStr = "ManhattanDistanceHeuristic"
     depthStr = str(node.depth)
-    os.rename(f"output/{fileName}", f"output/{heuristicStr}Depth{depthStr}on{fileName}")
+    os.rename(f"output/{fileName}", f"output/{heuristicStr}Depth{depthStr} on {fileName}")
     return
 
 if __name__ == "__main__":
