@@ -1,14 +1,14 @@
 import puzzle
 import sys
 # import test cases
-from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible, depth31
+from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible, depth31, depth8, depth12, depth16, depth20
 from search import generalSearch
 
 def main():
     sys.stdout=open("output/output.txt", "w")
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
-        selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 6 (inclusive): ")
+        selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 10 (inclusive): ")
         if selectedDifficulty == '0':
             print("You have selected \'Trivial\'")
             userPuzzle = goalState
@@ -22,12 +22,24 @@ def main():
             print("You have selected \'Doable\'")
             userPuzzle = doable
         if selectedDifficulty == '4':
+            print("You have selected \'Getting harder...\'")
+            userPuzzle = depth8
+        if selectedDifficulty == '5':
+            print("You have selected \'Medium\'")
+            userPuzzle = depth12
+        if selectedDifficulty == '6':
+            print("You have selected \'Hard\'")
+            userPuzzle = depth16
+        if selectedDifficulty == '7':
+            print("You have selected \'Very Hard\'")
+            userPuzzle = depth20
+        if selectedDifficulty == '7':
             print("You have selected \'Oh, boy\'")
             userPuzzle = oh_boy
-        if selectedDifficulty == '5':
+        if selectedDifficulty == '8':
             print("You have selected \'Impossible\'")
             userPuzzle = impossible
-        if selectedDifficulty == '6':
+        if selectedDifficulty == '10':
             print("You have selected \'Diameter\'")
             userPuzzle = depth31
     else:
