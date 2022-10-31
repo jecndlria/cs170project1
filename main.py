@@ -29,13 +29,13 @@ def main():
             userPuzzle = impossible
     else:
         print("Enter a valid 8-puzzle configuration by each row, using a \'0\' to represent the blank spot. Separate each number with a space, and press ENTER when you finish a row.")
-        userRowOne = input("Enter Row #1: ")
-        userRowTwo = input("Enter Row #2: ")
-        userRowThree = input("Enter Row #3: ")
+        userRowOne = input("Enter Row #1: \n")
+        userRowTwo = input("Enter Row #2: \n")
+        userRowThree = input("Enter Row #3: \n")
 
         userPuzzle = puzzle.createPuzzle(userRowOne, userRowTwo, userRowThree)
     
-    heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: ")
+    heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: \n")
     heuristic = int(heuristic)
     generalSearch(userPuzzle, heuristic)
     sys.stdout.close()
