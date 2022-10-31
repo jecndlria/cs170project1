@@ -74,11 +74,13 @@ def generalSearch(problem: list[list[int]], heuristic: int):
 # Expands a node by calculating all legal moves, and assigning those possible game states to the parent node.
 # Is passed into queueing function so that their heuristic is calculated.
 def expandNode(node: Node):
-    initialState = node.puzzle
-    currentState = Node(copy.deepcopy(initialState))
-    locationOfBlank = [0, 0]
-    nodes = []
-        
+    initialState = node.puzzle                                      # Save initial puzzle state, so we can calculate all possible operations.
+    currentState = Node(copy.deepcopy(initialState))                # Use a deep copy of the initial state, since Python would use a reference to initialState.
+    locationOfBlank = [0, 0]                                        # Used to keep track of where the blank tile is.
+    nodes = []                                                      # List used to return the possible game states.
+
+    # In general, deep copies need to be used since Python stores lists as mutable objects. In Python, assigning lists to another variable x means that x is just a reference.
+
     # Find the blank location
     for i in range(len(node.puzzle)):
         for j in range(len(node.puzzle[i])):
@@ -86,10 +88,10 @@ def expandNode(node: Node):
                 locationOfBlank = [i, j]
                 break
     
-    # For any size puzzle, there will be at most 4 legal moves.
+    # For any size puzzle, there will be at most 4 legal moves: swap blank left, right, up, down
     blankX = locationOfBlank[0]
     blankY = locationOfBlank[1]
-    # Can you move the blank left?
+
     if (blankX - 1) >= 0:
         # Swap the blank left.
         currentState.puzzle[blankX][blankY], currentState.puzzle[blankX - 1][blankY] = currentState.puzzle[blankX - 1][blankY], currentState.puzzle[blankX][blankY]
@@ -118,23 +120,24 @@ def expandNode(node: Node):
         nodes.append(newChildDown)                                  # Add the state to the list of nodes.
         currentState.puzzle = copy.deepcopy(initialState)           # Reset the currentState variable back to the original state to test the other cases.
 
+    # Assign correct depth for each node expanded.
     for child in nodes:
             child.depth = node.depth + 1
 
+    # Assign the list of possible game states to the node parameter's children.
     node.children = nodes
     return nodes
-
-def uniformCostSearch(puzzle: list[list[int]]):
-    return 0
 
 def misplacedTileHeuristic(puzzle: list[list[int]]):
     currentValue = 1
     misplacedTiles = 0
+
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])):
             if puzzle[i][j] != 0 and puzzle[i][j] != currentValue:
                 misplacedTiles += 1
             currentValue += 1
+            
     return misplacedTiles
 
 def manhattanDistanceHeuristic(puzzle: list[list[int]]):
