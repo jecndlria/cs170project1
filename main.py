@@ -11,7 +11,7 @@ def main():
     # Create new file with unique name (uses date and time to ensure no conflict/overwrite)
     # NOTE: ALL OUTPUT GOES TO THIS FILE, THERE WILL BE NO OUTPUT TO CONSOLE UNLESS THERE IS AN ERROR!
     fileName = str(datetime.now())
-    sys.stdout=open(f"output/{fileName}", "w")
+    sys.stdout=open(f"outputlogs/{fileName}", "w")
 
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
@@ -76,7 +76,7 @@ def main():
     if heuristic == 2:
         heuristicStr = "ManhattanDistanceHeuristic"
     depthStr = str(node.depth)
-    os.rename(f"output/{fileName}", f"output/{heuristicStr}Depth{depthStr} on {fileName}")
+    os.rename(f"outputlogs/{fileName}", f"outputlogs/{heuristicStr}Depth{depthStr} on {fileName}")
     return
 
 if __name__ == "__main__":
