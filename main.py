@@ -1,14 +1,14 @@
 import puzzle
 import sys
 # import test cases
-from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible
+from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible, depth31
 from search import generalSearch
 
 def main():
     sys.stdout=open("output/output.txt", "w")
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
-        selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 5 (inclusive): ")
+        selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 6 (inclusive): ")
         if selectedDifficulty == '0':
             print("You have selected \'Trivial\'")
             userPuzzle = goalState
@@ -27,6 +27,9 @@ def main():
         if selectedDifficulty == '5':
             print("You have selected \'Impossible\'")
             userPuzzle = impossible
+        if selectedDifficulty == '6':
+            print("You have selected \'Diameter\'")
+            userPuzzle = depth31
     else:
         print("Enter a valid 8-puzzle configuration by each row, using a \'0\' to represent the blank spot. Separate each number with a space, and press ENTER when you finish a row.")
         userRowOne = input("Enter Row #1: \n")

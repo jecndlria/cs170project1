@@ -27,30 +27,37 @@ def printPuzzle(puzzle: list[list[int]]):
         print('\n', end="")
 
 # --- BEGIN TEST CASES ---
+# Depth 0
 goalState = [[1, 2, 3],
              [4, 5, 6],
              [7, 8, 0]]
 
+# Depth 1
 veryEasy = [[1, 2, 3],
             [4, 5, 6],
             [7, 0, 8]]
 
+# Depth 2
 easy = [[1, 2, 0],
         [4, 5, 3],
         [7, 8, 6]]
 
+# Depth 4
 doable = [[0, 1, 2],
           [4, 5, 3],
           [7, 8, 6]]
 
+# Depth 22
 oh_boy = [[8, 7, 1],
           [6, 0, 2],
           [5, 4, 3]]
 
+# Depth 24
 impossible = [[0, 7, 2],
               [4, 6, 1],
               [3, 5, 8]]
 
+# Depth 31
 depth31 = [[8, 6, 7],
            [2, 5, 4],
            [3, 0, 1]]
