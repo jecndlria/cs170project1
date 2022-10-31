@@ -44,20 +44,26 @@ def generalSearch(problem: list[list[int]], heuristic: int):
     
     while True:
         if len(nodes) > maxQueueSize: maxQueueSize = len(nodes)
+
         if not nodes: 
             print("FAIL")
             return FAILURE
+
         nodeTuple = heapq.heappop(nodes)
         node = nodeTuple[1]
+
         while hash(str(node.puzzle)) in visitedStates: 
-            print("REPEAT!")
+            # print("REPEAT!")
             nodeTuple = heapq.heappop(nodes)
             node = nodeTuple[1]
+
+        print("Best state to expand with f(x): ", node.depth, " and h(x): ", node.priceOfNode - node.depth)
         visitedStates[hash(str(node.puzzle))] = node.puzzle
-        print("Current Puzzle: ")
         printPuzzle(node.puzzle)
+
         print("Current depth: ", node.depth)
         nodesExpanded += 1
+
         if checkStateEquality(node.puzzle, goalState): 
             print("SUCCESS")
             print("TIME ELAPSED: ", time.time() - start)
