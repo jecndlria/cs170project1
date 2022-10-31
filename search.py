@@ -5,24 +5,26 @@ from node import Node
 import copy
 import time
 
+visitedStates = {} # Hash table used to keep track of repeated states.
+
+
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
 # It builds upon initialization in order to save time and memory.
 # Also, it works independent of size. No need to change for different sizes of puzzle!
 # Note: This function can also be used to generate the goal state.
 
 def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
-    correctPairMapping = {}
-    currentValue = 1
+    correctPairMapping = {}                                     # Initialize dictionary
+    currentValue = 1                                            # We start from the tile at (0, 0), which should have a value of 1
 
-    for i in range(len(puzzle)):
-        for j in range(len(puzzle[i])):
+    for i in range(len(puzzle)):                                # This loop searches each row of the puzzle from left to right,
+        for j in range(len(puzzle[i])):                         # mapping each tile in numerical order.
             correctPairMapping[currentValue] = [i, j]
             currentValue += 1
 
     correctPairMapping[currentValue] = 0                        # Last tile should always be 0
     return correctPairMapping
 
-visitedStates = {} # MAKE THIS A HASH TABLE, SO LOOKUP OF REPEATED STATES IS EASY!
 correctPairMapping = buildCorrectPairMappingDictionary(goalState)                          # Dictonary that maps the correct ordered pair for each block
 
 # function general-search(problem, QUEUEING-FUNCTION)
@@ -35,41 +37,39 @@ correctPairMapping = buildCorrectPairMappingDictionary(goalState)               
 #   end
 
 def generalSearch(problem: list[list[int]], heuristic: int):
-
-    start = time.time()
+    start = time.time()                                                 # Keeps track of time elapsed.
     nodesExpanded = 0
     maxQueueSize = 0
 
-    nodes = []
+    nodes = []                                                          # nodes = MAKE-QUEUE(MAKE-NODE(problem.INITIAL-STATE))
     heapq.heapify(nodes)
-    heapq.heappush(nodes, (0, Node(problem)))
+    heapq.heappush(nodes, (0, Node(problem)))                           # Node is pushed as a tuple with node cost as first element, since heapq sorts tuples by their first element.
     
     while True:
-        if len(nodes) > maxQueueSize: maxQueueSize = len(nodes)
+        if len(nodes) > maxQueueSize: maxQueueSize = len(nodes)         # Update the maxQueueSize if the queue has become bigger than previously seen max
 
-        if not nodes: 
+        if not nodes:                                                   # if EMPTY(nodes) then return "failure"
             print("FAIL")
             return FAILURE
 
-        nodeTuple = heapq.heappop(nodes)
-        node = nodeTuple[1]
+        nodeTuple = heapq.heappop(nodes)                                # node = REMOVE-FRONT(nodes)
+        node = nodeTuple[1]                                             # Since nodes are pushed as a tuple, we need to get the actual node.
 
-        while hash(str(node.puzzle)) in visitedStates: 
-            # print("REPEAT!")
+        while hash(str(node.puzzle)) in visitedStates:                  # Checks if the last node from queue is a duplicate using the string representation of the puzzle as a hash.
             nodeTuple = heapq.heappop(nodes)
             node = nodeTuple[1]
 
         print("Best state to expand with f(x): ", node.depth, " and h(x): ", node.priceOfNode - node.depth)
-        visitedStates[hash(str(node.puzzle))] = node.puzzle
+        visitedStates[hash(str(node.puzzle))] = node.puzzle             # Adds current node to hash table of visited states.
         printPuzzle(node.puzzle)
 
         print("Current depth: ", node.depth)
-        nodesExpanded += 1
+        nodesExpanded += 1                                              # Counter of expanded nodes.
 
-        if checkStateEquality(node.puzzle, goalState): 
+        if checkStateEquality(node.puzzle, goalState):                  # if problem.GOAL-TEST(node.STATE) succeeds then return node
             print("SUCCESS!", "TIME ELAPSED (in seconds): ", time.time() - start, "\nNODES EXPANDED: ", nodesExpanded, "\nMAX QUEUE SIZE: ", maxQueueSize)
             return node
-        nodes = queueingFunction(nodes, expandNode(node), heuristic)
+        nodes = queueingFunction(nodes, expandNode(node), heuristic)    # nodes = QUEUEING-FUNCTION(nodes, EXPAND(node, problem.OPERATORS))
 
 # Expands a node by calculating all legal moves, and assigning those possible game states to the parent node.
 # Is passed into queueing function so that their heuristic is calculated.
