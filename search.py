@@ -7,7 +7,6 @@ import time
 
 visitedStates = {} # Hash table used to keep track of repeated states.
 
-
 # This function is used to build the dictonary used in the Manhattan Distance Heuristic.
 # It builds upon initialization in order to save time and memory.
 # Also, it works independent of size. No need to change for different sizes of puzzle!
@@ -25,7 +24,7 @@ def buildCorrectPairMappingDictionary(puzzle: list[list[int]]):
     correctPairMapping[currentValue] = 0                        # Last tile should always be 0
     return correctPairMapping
 
-correctPairMapping = buildCorrectPairMappingDictionary(goalState)                          # Dictonary that maps the correct ordered pair for each block
+correctPairMapping = buildCorrectPairMappingDictionary(goalState)  # Dictonary that maps the correct ordered pair for each block
 
 # function general-search(problem, QUEUEING-FUNCTION)
 #   nodes = MAKE-QUEUE(MAKE-NODE(problem.INITIAL-STATE))
@@ -128,16 +127,18 @@ def expandNode(node: Node):
     node.children = nodes
     return nodes
 
+# NOTE: this function can be changed to used the correct pair mapping dictionary instead!
 def misplacedTileHeuristic(puzzle: list[list[int]]):
-    currentValue = 1
-    misplacedTiles = 0
+    currentValue = 1                                   # Same idea in the buildCorrectPairMappingDictionary function: search tiles in numerical order (each row from left to right)
+    misplacedTiles = 0                                 # Keeps track of current misplaced tile count
 
+    # Search each row from left to right (ignoring the blank).
     for i in range(len(puzzle)):
         for j in range(len(puzzle[i])):
-            if puzzle[i][j] != 0 and puzzle[i][j] != currentValue:
+            if puzzle[i][j] != 0 and puzzle[i][j] != currentValue:         # If current block is not the correct value and is not 0, increment misplaced tiles.
                 misplacedTiles += 1
             currentValue += 1
-            
+
     return misplacedTiles
 
 def manhattanDistanceHeuristic(puzzle: list[list[int]]):
@@ -161,13 +162,13 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
     return manhattanDistance
 
 def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
-    for node in nodesToQueue:
-        if heuristic == 0: heuristicValue = 0
-        if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)
+    for node in nodesToQueue:                                       # nodesToQueue contains results from expandNode(), this loop calculates their heuristic value
+        if heuristic == 0: heuristicValue = 0                       # Uniform Cost Search h(x) is always 0
+        if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)     
         if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
-        # else: heuristicValue = 0
-        node.priceOfNode = node.depth + heuristicValue
-        heapq.heappush(nodeQueue, (node.priceOfNode, node))
+
+        node.priceOfNode = node.depth + heuristicValue              # Price of node: f(x) = g(x) + h(x) [depth + heuristic value]
+        heapq.heappush(nodeQueue, (node.priceOfNode, node))         # Push the nodes onto the priority queue, with priceOfNode as the first element of the tuple so heapq knows to sort it based on price.
     return nodeQueue
 
 # --- BEGIN NOTES ---
