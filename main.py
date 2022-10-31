@@ -1,3 +1,5 @@
+from datetime import datetime
+import os
 import puzzle
 import sys
 # import test cases
@@ -5,7 +7,8 @@ from puzzle import goalState, veryEasy, easy, doable, oh_boy, impossible, depth3
 from search import generalSearch
 
 def main():
-    sys.stdout=open("output/output.txt", "w")
+    fileName = str(datetime.now())
+    sys.stdout=open(f"output/{fileName}", "w")
     puzzlePrompt = input("This is an 8-Puzzle solver. Type \'0\' to use a default puzzle, or anything else to input your own puzzle.\n")
     if puzzlePrompt == '0':
         selectedDifficulty = input("Select the difficulty of the default puzzle from 0 to 9 (inclusive): ")
@@ -52,8 +55,16 @@ def main():
     
     heuristic = input("Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: \n")
     heuristic = int(heuristic)
-    generalSearch(userPuzzle, heuristic)
+    node = generalSearch(userPuzzle, heuristic)
     sys.stdout.close()
+    if heuristic == 0:
+        heuristicStr = "UniformCostSearch"
+    if heuristic == 1:
+        heuristicStr = "MisplacedTileHeuristic"
+    if heuristic == 2:
+        heuristicStr = "ManhattanDistanceHeuristic"
+    depthStr = str(node.depth)
+    os.rename(f"output/{fileName}", f"output/{heuristicStr}Depth{depthStr}on{fileName}")
     return
 
 if __name__ == "__main__":

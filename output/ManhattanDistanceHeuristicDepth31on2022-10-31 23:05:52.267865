@@ -60161,6 +60161,6 @@ Best state to expand with f(x):  31  and h(x):  0
 [4, 5, 6]
 [7, 8, 0]
 Current depth:  31
-SUCCESS! TIME ELAPSED (in seconds):  1.1364169120788574 
+SUCCESS! TIME ELAPSED (in seconds):  1.0900774002075195 
 NODES EXPANDED:  12032 
 MAX QUEUE SIZE:  12459
