@@ -40,9 +40,14 @@ def generalSearch(problem: list[list[int]], heuristic: int):
     nodesExpanded = 0
     maxQueueSize = 0
 
+    if heuristic == 0: initialHeuristic = 0
+    if heuristic == 1: initialHeuristic = misplacedTileHeuristic(problem)
+    if heuristic == 2: initialHeuristic = manhattanDistanceHeuristic(problem)
+
     nodes = []                                                          # nodes = MAKE-QUEUE(MAKE-NODE(problem.INITIAL-STATE))
-    heapq.heapify(nodes)
-    heapq.heappush(nodes, (0, Node(problem)))                           # Node is pushed as a tuple with node cost as first element, since heapq sorts tuples by their first element.
+    node = Node(problem)
+    node.priceOfNode = initialHeuristic
+    heapq.heappush(nodes, (node.priceOfNode, node))                     # Node is pushed as a tuple with node cost as first element, since heapq sorts tuples by their first element.
     
     while True:
         if len(nodes) > maxQueueSize: maxQueueSize = len(nodes)         # Update the maxQueueSize if the queue has become bigger than previously seen max
