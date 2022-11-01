@@ -168,12 +168,13 @@ def manhattanDistanceHeuristic(puzzle: list[list[int]]):
 
 def queueingFunction(nodeQueue, nodesToQueue, heuristic: int):
     for node in nodesToQueue:                                       # nodesToQueue contains results from expandNode(), this loop calculates their heuristic value
-        if heuristic == 0: heuristicValue = 0                       # Uniform Cost Search h(x) is always 0
-        if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)     
-        if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
+        if hash(str(node.puzzle)) not in visitedStates:
+            if heuristic == 0: heuristicValue = 0                       # Uniform Cost Search h(x) is always 0
+            if heuristic == 1: heuristicValue = misplacedTileHeuristic(node.puzzle)     
+            if heuristic == 2: heuristicValue = manhattanDistanceHeuristic(node.puzzle)
 
-        node.priceOfNode = node.depth + heuristicValue              # Price of node: f(x) = g(x) + h(x) [depth + heuristic value]
-        heapq.heappush(nodeQueue, (node.priceOfNode, node))         # Push the nodes onto the priority queue, with priceOfNode as the first element of the tuple so heapq knows to sort it based on price.
+            node.priceOfNode = node.depth + heuristicValue              # Price of node: f(x) = g(x) + h(x) [depth + heuristic value]
+            heapq.heappush(nodeQueue, (node.priceOfNode, node))         # Push the nodes onto the priority queue, with priceOfNode as the first element of the tuple so heapq knows to sort it based on price.
     return nodeQueue
 
 # --- BEGIN NOTES ---
