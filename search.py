@@ -66,7 +66,7 @@ def generalSearch(problem: list[list[int]], heuristic: int):
         nodesExpanded += 1                                              # Counter of expanded nodes.
 
         if checkStateEquality(node.puzzle, goalState):                  # if problem.GOAL-TEST(node.STATE) succeeds then return node
-            print("SUCCESS!", "TIME ELAPSED (in seconds): ", time.time() - start, "\nNODES EXPANDED: ", nodesExpanded, "\nMAX QUEUE SIZE: ", maxQueueSize)
+            print("SUCCESS!", "TIME ELAPSED (in seconds): ", round(time.time() - start, 1), "\nNODES EXPANDED: ", nodesExpanded, "\nMAX QUEUE SIZE: ", maxQueueSize)
             return node
         nodes = queueingFunction(nodes, expandNode(node), heuristic)    # nodes = QUEUEING-FUNCTION(nodes, EXPAND(node, problem.OPERATORS))
 
