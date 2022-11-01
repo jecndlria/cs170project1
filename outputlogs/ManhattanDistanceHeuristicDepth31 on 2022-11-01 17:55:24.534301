@@ -1,9 +1,9 @@
 This is an 8-Puzzle solver. Type '0' to use a default puzzle, or anything else to input your own puzzle.
 Enter a valid 8-puzzle configuration by each row, using a '0' to represent the blank spot. Separate each number with a space, and press ENTER when you finish a row.
-Enter Row #1: 
-Enter Row #2: 
-Enter Row #3: 
-Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: 
+Enter Row #1: 8 6 7
+Enter Row #2: 2 5 4
+Enter Row #3: 3 0 1
+Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: 2
 Best state to expand with g(x):  0  and h(x):  21
 [8, 6, 7]
 [2, 5, 4]
