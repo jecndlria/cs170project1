@@ -1,0 +1,31 @@
+This is an 8-Puzzle solver. Type '0' to use a default puzzle, or anything else to input your own puzzle.
+Select the difficulty of the default puzzle from 0 to 9 (inclusive): You have selected 'Doable'
+Enter 0 to use Uniform Cost Search, 1 to use Misplaced Tile Heuristic, 2 to use Manhattan Distance Heuristic: 
+Best state to expand with g(x):  0  and h(x):  0
+[0, 1, 2]
+[4, 5, 3]
+[7, 8, 6]
+Current depth:  0
+Best state to expand with g(x):  1  and h(x):  3
+[1, 0, 2]
+[4, 5, 3]
+[7, 8, 6]
+Current depth:  1
+Best state to expand with g(x):  2  and h(x):  2
+[1, 2, 0]
+[4, 5, 3]
+[7, 8, 6]
+Current depth:  2
+Best state to expand with g(x):  3  and h(x):  1
+[1, 2, 3]
+[4, 5, 0]
+[7, 8, 6]
+Current depth:  3
+Best state to expand with g(x):  4  and h(x):  0
+[1, 2, 3]
+[4, 5, 6]
+[7, 8, 0]
+Current depth:  4
+SUCCESS! TIME ELAPSED (in seconds):  0.0011749267578125 
+NODES EXPANDED:  5 
+MAX QUEUE SIZE:  7

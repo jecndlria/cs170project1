@@ -46,7 +46,7 @@ def main():
         if selectedDifficulty == '9':
             print("You have selected \'Impossible\'")
             userPuzzle = impossible
-        else:
+        if selectedDifficulty == '10':
             print("Secret difficulty: Computer Crasher")
             userPuzzle = depth31
     else:
